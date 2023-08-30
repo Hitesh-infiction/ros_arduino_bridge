@@ -252,26 +252,26 @@ void setup() {
 // Initialize the motor controller if used */
 #ifdef USE_BASE
   #ifdef ARDUINO_ENC_COUNTER
-    //set as inputs
-    DDRD &= ~(1<<LEFT_ENC_PIN_A);
-    DDRD &= ~(1<<LEFT_ENC_PIN_B);
-    DDRC &= ~(1<<RIGHT_ENC_PIN_A);
-    DDRC &= ~(1<<RIGHT_ENC_PIN_B);
-    
-    //enable pull up resistors
-    PORTD |= (1<<LEFT_ENC_PIN_A);
-    PORTD |= (1<<LEFT_ENC_PIN_B);
-    PORTC |= (1<<RIGHT_ENC_PIN_A);
-    PORTC |= (1<<RIGHT_ENC_PIN_B);
-    
-    // tell pin change mask to listen to left encoder pins
-    PCMSK2 |= (1 << LEFT_ENC_PIN_A)|(1 << LEFT_ENC_PIN_B);
-    // tell pin change mask to listen to right encoder pins
-    PCMSK1 |= (1 << RIGHT_ENC_PIN_A)|(1 << RIGHT_ENC_PIN_B);
-    
-    // enable PCINT1 and PCINT2 interrupt in the general interrupt mask
-    PCICR |= (1 << PCIE1) | (1 << PCIE2);
-  #endif
+  // Set as inputs
+  DDRE &= ~(1 << LEFT_ENC_PIN_A);// Change DDRD to DDRE
+  DDRE &= ~(1 << LEFT_ENC_PIN_B);// Change DDRD to DDRE
+  DDRD &= ~(1 << RIGHT_ENC_PIN_A); // Change DDRC to DDRD
+  DDRD &= ~(1 << RIGHT_ENC_PIN_B); // Change DDRC to DDRD
+  
+  // Enable pull-up resistors
+  PORTE |= (1 << LEFT_ENC_PIN_A);// Change PORTD to PORTE
+  PORTE |= (1 << LEFT_ENC_PIN_B);// Change PORTD to PORTE
+  PORTD |= (1 << RIGHT_ENC_PIN_A); // Change PORTC to PORTD
+  PORTD |= (1 << RIGHT_ENC_PIN_B); // Change PORTC to PORTD
+  
+  // Tell pin change mask to listen to left encoder pins
+  PCMSK2 |= (1 << LEFT_ENC_PIN_A) | (1 << LEFT_ENC_PIN_B);
+  // Tell pin change mask to listen to right encoder pins
+  PCMSK1 |= (1 << RIGHT_ENC_PIN_A) | (1 << RIGHT_ENC_PIN_B);
+  
+  // Enable PCINT1 and PCINT2 interrupt in the general interrupt mask
+  PCICR |= (1 << PCIE1) | (1 << PCIE2);
+#endif
   initMotorController();
   resetPID();
 #endif
@@ -355,4 +355,3 @@ void loop() {
   }
 #endif
 }
-

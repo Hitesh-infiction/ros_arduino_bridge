@@ -34,22 +34,22 @@
     
   /* Interrupt routine for LEFT encoder, taking care of actual counting */
   ISR (PCINT2_vect){
-  	static uint8_t enc_last=0;
+    static uint8_t enc_last=0;
         
-	enc_last <<=2; //shift previous state two places
-	enc_last |= (PIND & (3 << 2)) >> 2; //read the current state into lowest 2 bits
+    enc_last <<=2; //shift previous state two places
+    enc_last |= (PINE & (3 << PE4)) >> PE4; //read the current state into lowest 2 bits
   
-  	left_enc_pos += ENC_STATES[(enc_last & 0x0f)];
+    left_enc_pos += ENC_STATES[(enc_last & 0x0f)];
   }
   
   /* Interrupt routine for RIGHT encoder, taking care of actual counting */
   ISR (PCINT1_vect){
-        static uint8_t enc_last=0;
-          	
-	enc_last <<=2; //shift previous state two places
-	enc_last |= (PINC & (3 << 4)) >> 4; //read the current state into lowest 2 bits
+    static uint8_t enc_last=0;
+            
+    enc_last <<=2; //shift previous state two places
+    enc_last |= (PIND & (3 << PD2)) >> PD2; //read the current state into lowest 2 bits
   
-  	right_enc_pos += ENC_STATES[(enc_last & 0x0f)];
+    right_enc_pos += ENC_STATES[(enc_last & 0x0f)];
   }
   
   /* Wrap the encoder reading function */
@@ -79,4 +79,3 @@ void resetEncoders() {
 }
 
 #endif
-
