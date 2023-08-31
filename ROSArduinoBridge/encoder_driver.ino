@@ -36,20 +36,20 @@
   ISR (PCINT2_vect){
     static uint8_t enc_last=0;
         
-    enc_last <<=2; //shift previous state two places
-    enc_last |= (PINE & (3 << PE4)) >> PE4; //read the current state into lowest 2 bits
+    enc_last <<= 2; // Shift previous state two places
+    enc_last |= (PIND & 0x0C) >> 2; // Read the current state into bits 3 and 2
   
-    left_enc_pos += ENC_STATES[(enc_last & 0x0f)];
+    left_enc_pos += ENC_STATES[(enc_last & 0x0F)];
   }
   
   /* Interrupt routine for RIGHT encoder, taking care of actual counting */
   ISR (PCINT1_vect){
     static uint8_t enc_last=0;
-            
-    enc_last <<=2; //shift previous state two places
-    enc_last |= (PIND & (3 << PD2)) >> PD2; //read the current state into lowest 2 bits
+      
+    enc_last <<= 2; // Shift previous state two places
+    enc_last |= (PINE & 0x30) >> 4; // Read the current state into bits 5 and 4
   
-    right_enc_pos += ENC_STATES[(enc_last & 0x0f)];
+    right_enc_pos += ENC_STATES[(enc_last & 0x0F)];
   }
   
   /* Wrap the encoder reading function */
@@ -69,7 +69,7 @@
     }
   }
 #else
-  #error A encoder driver must be selected!
+  #error An encoder driver must be selected!
 #endif
 
 /* Wrap the encoder reset function */
